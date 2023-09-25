@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanksgiving Meal</title>
+</head>
+<body>
+    <h1>Thanksgiving Meal</h1>
+
+    <button onclick="displayMealInfo()">Display Meal Info</button>
+
+    <p class="fullMeal"></p>
+    <p class="priceInfo"></p>
+    <p class="calorieInfo"></p>
+
+    <script>
+        const thanksgivingMeal = {
+            starter: {
+                soup: "Butternut Squash Soup",
+                wine: "Chardonnay",
+                calories: 220
+            },
+            entree: {
+                meat: "Roast Turkey",
+                alt: "Stuffed Portobello Mushrooms",
+                vegetables: {
+                    potatoes: "Garlic Mashed Potatoes",
+                    greens: "Green Beans Almondine",
+                    salad: "Cranberry Walnut Salad"
+                },
+                sides: {
+                    bread: "Dinner Rolls",
+                    pasta: "Macaroni and Cheese"
+                },
+                calories: 550
+            },
+            dessert: {
+                pie: "Pumpkin Pie",
+                ice_cream: "Vanilla Ice Cream",
+                calories: 320
+            },
+            total_cost: 30.0,
+            senior_discount: 0.10,
+            prettyPrint: function () {
+                let menuStr = `Starter: ${this.starter.soup}, Wine: ${this.starter.wine}\n`;
+                menuStr += `Entree: ${this.entree.meat}, Alt: ${this.entree.alt}\n`;
+                menuStr += `Vegetables: ${this.entree.vegetables.potatoes}, ${this.entree.vegetables.greens}, Salad: ${this.entree.vegetables.salad}\n`;
+                menuStr += `Sides: ${this.entree.sides.bread}, ${this.entree.sides.pasta}\n`;
+                menuStr += `Dessert: ${this.dessert.pie}, Ice Cream: ${this.dessert.ice_cream}`;
+                return menuStr;
+            },
+            totalPrice(isSenior) {
+                let price = this.total_cost;
+                if (isSenior) {
+                    price -= price * this.senior_discount;
+                }
+                return price.toFixed(2);
+            },
+            totalCalories: function () {
+                return this.starter.calories + this.entree.calories + this.dessert.calories;
+            },
+            caloriesFrom: function (indicator) {
+                if (indicator === 1) {
+                    return this.starter.calories;
+                } else if (indicator === 2) {
+                    return this.entree.calories;
+                } else if (indicator === 3) {
+                    return this.dessert.calories;
+                }
+            }
+        };
+
+        // Function to display meal information
+        function displayMealInfo() {
+            // Display the full meal
+            let fullMeal = document.querySelector(".fullMeal");
+            fullMeal.textContent = `Full Meal:\n${thanksgivingMeal.prettyPrint()}`;
+
+            // Display the total price (considering senior discount)
+            let isSenior = false; // Set to true if the customer is a senior
+            let priceInfo = document.querySelector(".priceInfo");
+            priceInfo.textContent = `Total Price: $${thanksgivingMeal.totalPrice(isSenior)}`;
+
+            // Display the total calories
+            let calorieInfo = document.querySelector(".calorieInfo");
+            calorieInfo.textContent = `Total Calories: ${thanksgivingMeal.totalCalories()} calories`;
+        }
+    </script>
+</body>
+</html>
